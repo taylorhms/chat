@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+	<title>Login</title>
+	<!-- link href="signin.css" rel="stylesheet"> -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<style>
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #f5f5f5;
+}
+
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+}
+
+.form-signin .form-floating:focus-within {
+  z-index: 2;
+}
+
+.form-signin input[type="text"] {
+  margin-bottom: -1px;
+}
+
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+	</style>
+</head>
+<body class="text-center">
+	<main class="form-signin w-100 m-auto">
+		<h1 class="h3 mb-3 fw-normal">Login</h1>
+		<form>
+			<div class="form-floating mb-3">
+				<input class="form-control" name="u" id="usuario" type="text" placeholder="usuario">
+				<label for="usuario">Usuário</label>
+			</div>
+			<p class="text-danger" id="mensagem-erro"></p>
+			<button class="w-100 btn btn-lg btn-primary" id="btn-entrar">Entrar</button>
+		</form>
+	</main>
+	
+	<script>
+$('#btn-entrar').click(e => {
+	let username = $('#usuario').val();
+	let usuario = {
+		nome: username
+	};
+	
+	e.preventDefault();
+
+	if (!username || /^\s*$/.test(username)) {
+		$('#mensagem-erro').html('Entre com seu nome');
+		return;
+	}
+
+	$('#mensagem-erro').html('');
+
+	fetch('./u', {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(usuario)
+	})
+		.then((resposta) => resposta.json())
+		.then((usr) => {
+			window.open('./?u=' + usr.id, '_self');
+		});
+});
+	</script>
+	
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+</body>
+</html>
